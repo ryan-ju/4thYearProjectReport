@@ -42,12 +42,12 @@ endobj
 <?adobe-xap-filters esc="CRLF"?>
 <x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMP toolkit 2.9.1-13, framework 1.6'>
 <rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:iX='http://ns.adobe.com/iX/1.0/'>
-<rdf:Description rdf:about='458235f9-da83-11ec-0000-17821115d5a0' xmlns:pdf='http://ns.adobe.com/pdf/1.3/' pdf:Producer='GPL Ghostscript 8.71'/>
-<rdf:Description rdf:about='458235f9-da83-11ec-0000-17821115d5a0' xmlns:xmp='http://ns.adobe.com/xap/1.0/'><xmp:ModifyDate>2012-05-20T11:29:47+01:00</xmp:ModifyDate>
-<xmp:CreateDate>2012-05-20T11:29:47+01:00</xmp:CreateDate>
+<rdf:Description rdf:about='6bb1d150-da97-11ec-0000-17821115d5a0' xmlns:pdf='http://ns.adobe.com/pdf/1.3/' pdf:Producer='GPL Ghostscript 8.71'/>
+<rdf:Description rdf:about='6bb1d150-da97-11ec-0000-17821115d5a0' xmlns:xmp='http://ns.adobe.com/xap/1.0/'><xmp:ModifyDate>2012-05-20T13:54:01+01:00</xmp:ModifyDate>
+<xmp:CreateDate>2012-05-20T13:54:01+01:00</xmp:CreateDate>
 <xmp:CreatorTool>jlibeps 0.1, https://sourceforge.net/projects/jlibeps/</xmp:CreatorTool></rdf:Description>
-<rdf:Description rdf:about='458235f9-da83-11ec-0000-17821115d5a0' xmlns:xapMM='http://ns.adobe.com/xap/1.0/mm/' xapMM:DocumentID='458235f9-da83-11ec-0000-17821115d5a0'/>
-<rdf:Description rdf:about='458235f9-da83-11ec-0000-17821115d5a0' xmlns:dc='http://purl.org/dc/elements/1.1/' dc:format='application/pdf'><dc:title><rdf:Alt><rdf:li xml:lang='x-default'>LaTeXDraw</rdf:li></rdf:Alt></dc:title></rdf:Description>
+<rdf:Description rdf:about='6bb1d150-da97-11ec-0000-17821115d5a0' xmlns:xapMM='http://ns.adobe.com/xap/1.0/mm/' xapMM:DocumentID='6bb1d150-da97-11ec-0000-17821115d5a0'/>
+<rdf:Description rdf:about='6bb1d150-da97-11ec-0000-17821115d5a0' xmlns:dc='http://purl.org/dc/elements/1.1/' dc:format='application/pdf'><dc:title><rdf:Alt><rdf:li xml:lang='x-default'>LaTeXDraw</rdf:li></rdf:Alt></dc:title></rdf:Description>
 </rdf:RDF>
 </x:xmpmeta>
                                                                         
@@ -57,8 +57,8 @@ endstream
 endobj
 2 0 obj
 <</Producer(GPL Ghostscript 8.71)
-/CreationDate(D:20120520112947+01'00')
-/ModDate(D:20120520112947+01'00')
+/CreationDate(D:20120520135401+01'00')
+/ModDate(D:20120520135401+01'00')
 /Creator(jlibeps 0.1, https://sourceforge.net/projects/jlibeps/)
 /Title(LaTeXDraw)>>endobj
 xref
@@ -75,7 +75,7 @@ xref
 0000000602 00000 n 
 trailer
 << /Size 10 /Root 1 0 R /Info 2 0 R
-/ID [<7B9B054A55191B969E49005C5196A801><7B9B054A55191B969E49005C5196A801>]
+/ID [<2C7731D34C7DB668F34B53CB120280C2><2C7731D34C7DB668F34B53CB120280C2>]
 >>
 startxref
 2240
