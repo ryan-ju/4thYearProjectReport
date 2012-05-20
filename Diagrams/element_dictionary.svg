@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+    xmlns:latexdraw="http://latexdraw.sourceforge.net/namespaces/latexdraw"
+    version="1.1" baseProfile="full">
+    <defs>
+        <marker overflow="visible" orient="auto" id="arrow1-10336">
+            <path
+                d="M 0.0 0.0 L 4.652083333333334 1.6614583333333335 L 2.79125 0.0 L 4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow1-10337">
+            <path
+                d="M 0.0 0.0 L 4.652083333333334 1.6614583333333335 L 2.79125 0.0 L 4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+        <marker overflow="visible" orient="auto" id="arrow1-10338">
+            <path
+                d="M 0.0 0.0 L 4.652083333333334 1.6614583333333335 L 2.79125 0.0 L 4.652083333333334 -1.6614583333333335 z "
+                latexdraw:arrSizeNum="2.0" fill="black"/>
+        </marker>
+    </defs>
+    <g>
+        <g stroke-width="1.0" stroke="black" latexdraw:isWest="true"
+            latexdraw:isSouth="true" latexdraw:style="axes"
+            latexdraw:gridStart="0.0 0.0" latexdraw:gridEnd="10.0 10.0"
+            latexdraw:origin="0.0 0.0" latexdraw:increment="1.0 1.0"
+            latexdraw:distLabels="0.0 0.0"
+            latexdraw:ticksSize="5.291666507720947"
+            latexdraw:showOrigin="true" latexdraw:showTicks="all"
+            latexdraw:showLabels="all" latexdraw:ticksStyle="full"
+            latexdraw:type="axe" id="id10320">
+            <g latexdraw:type="line" id="id10379">
+                <line x1="60.0" x2="560.0" y1="510.0" y2="510.0"
+                    stroke-width="1.0" stroke="black" latexdraw:rotationAngle="0.0"/>
+            </g>
+            <g latexdraw:type="line" id="id10380">
+                <line x1="60.0" x2="60.0" y1="10.0" y2="510.0"
+                    stroke-width="1.0" stroke="black" latexdraw:rotationAngle="0.0"/>
+            </g>
+            <g>
+                <line x1="110.0" x2="110.0" y1="510.0" y2="504.20833349227905"/>
+                <line x1="160.0" x2="160.0" y1="510.0" y2="504.20833349227905"/>
+                <line x1="210.0" x2="210.0" y1="510.0" y2="504.20833349227905"/>
+                <line x1="260.0" x2="260.0" y1="510.0" y2="504.20833349227905"/>
+                <line x1="310.0" x2="310.0" y1="510.0" y2="504.20833349227905"/>
+                <line x1="360.0" x2="360.0" y1="510.0" y2="504.20833349227905"/>
+                <line x1="410.0" x2="410.0" y1="510.0" y2="504.20833349227905"/>
+                <line x1="460.0" x2="460.0" y1="510.0" y2="504.20833349227905"/>
+                <line x1="510.0" x2="510.0" y1="510.0" y2="504.20833349227905"/>
+                <line x1="560.0" x2="560.0" y1="510.0" y2="504.20833349227905"/>
+            </g>
+            <g>
+                <line x1="60.0" x2="65.79166650772095" y1="460.0" y2="460.0"/>
+                <line x1="60.0" x2="65.79166650772095" y1="410.0" y2="410.0"/>
+                <line x1="60.0" x2="65.79166650772095" y1="360.0" y2="360.0"/>
+                <line x1="60.0" x2="65.79166650772095" y1="310.0" y2="310.0"/>
+                <line x1="60.0" x2="65.79166650772095" y1="260.0" y2="260.0"/>
+                <line x1="60.0" x2="65.79166650772095" y1="210.0" y2="210.0"/>
+                <line x1="60.0" x2="65.79166650772095" y1="160.0" y2="160.0"/>
+                <line x1="60.0" x2="65.79166650772095" y1="110.0" y2="110.0"/>
+                <line x1="60.0" x2="65.79166650772095" y1="60.0" y2="60.0"/>
+                <line x1="60.0" x2="65.79166650772095" y1="10.0" y2="10.0"/>
+            </g>
+            <g>
+                <line x1="110.0" x2="110.0" y1="510.0" y2="515.791666507721"/>
+                <line x1="160.0" x2="160.0" y1="510.0" y2="515.791666507721"/>
+                <line x1="210.0" x2="210.0" y1="510.0" y2="515.791666507721"/>
+                <line x1="260.0" x2="260.0" y1="510.0" y2="515.791666507721"/>
+                <line x1="310.0" x2="310.0" y1="510.0" y2="515.791666507721"/>
+                <line x1="360.0" x2="360.0" y1="510.0" y2="515.791666507721"/>
+                <line x1="410.0" x2="410.0" y1="510.0" y2="515.791666507721"/>
+                <line x1="460.0" x2="460.0" y1="510.0" y2="515.791666507721"/>
+                <line x1="510.0" x2="510.0" y1="510.0" y2="515.791666507721"/>
+                <line x1="560.0" x2="560.0" y1="510.0" y2="515.791666507721"/>
+            </g>
+            <g>
+                <line x1="60.0" x2="54.20833349227905" y1="460.0" y2="460.0"/>
+                <line x1="60.0" x2="54.20833349227905" y1="410.0" y2="410.0"/>
+                <line x1="60.0" x2="54.20833349227905" y1="360.0" y2="360.0"/>
+                <line x1="60.0" x2="54.20833349227905" y1="310.0" y2="310.0"/>
+                <line x1="60.0" x2="54.20833349227905" y1="260.0" y2="260.0"/>
+                <line x1="60.0" x2="54.20833349227905" y1="210.0" y2="210.0"/>
+                <line x1="60.0" x2="54.20833349227905" y1="160.0" y2="160.0"/>
+                <line x1="60.0" x2="54.20833349227905" y1="110.0" y2="110.0"/>
+                <line x1="60.0" x2="54.20833349227905" y1="60.0" y2="60.0"/>
+                <line x1="60.0" x2="54.20833349227905" y1="10.0" y2="10.0"/>
+            </g>
+            <text font-size="20" stroke-width="1" stroke="black" x="53" y="539">0</text>
+            <g stroke="black" stroke-width="1" font-size="20">
+                <text x="103" y="539">1</text>
+                <text x="153" y="539">2</text>
+                <text x="203" y="539">3</text>
+                <text x="253" y="539">4</text>
+                <text x="303" y="539">5</text>
+                <text x="353" y="539">6</text>
+                <text x="403" y="539">7</text>
+                <text x="453" y="539">8</text>
+                <text x="503" y="539">9</text>
+                <text x="547" y="539">10</text>
+            </g>
+            <text font-size="20" stroke-width="1" stroke="black" x="36" y="519">0</text>
+            <g stroke="black" stroke-width="1" font-size="20">
+                <text x="36" y="469">1</text>
+                <text x="36" y="419">2</text>
+                <text x="36" y="369">3</text>
+                <text x="36" y="319">4</text>
+                <text x="36" y="269">5</text>
+                <text x="36" y="219">6</text>
+                <text x="36" y="169">7</text>
+                <text x="36" y="119">8</text>
+                <text x="36" y="69">9</text>
+                <text x="23" y="19">10</text>
+            </g>
+        </g>
+        <g latexdraw:type="rectangle" id="id10324">
+            <rect x="111.0" y="261.0" width="198.0" height="148.0"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="none"/>
+        </g>
+        <g latexdraw:type="rectangle" id="id10325">
+            <rect x="211.0" y="61.0" width="248.0" height="148.0"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="none"/>
+        </g>
+        <g latexdraw:type="line" id="id10326">
+            <line x1="60.0" x2="350.0" y1="310.0" y2="310.0"
+                stroke-width="2.0" stroke="black"
+                stroke-dasharray="8.0, 8.0" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="line" id="id10327">
+            <line x1="60.0" x2="350.0" y1="360.0" y2="360.0"
+                stroke-width="2.0" stroke="black"
+                stroke-dasharray="8.0, 8.0" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="line" id="id10328">
+            <line x1="310.0" x2="310.0" y1="510.0" y2="20.0"
+                stroke-width="2.0" stroke="black"
+                stroke-dasharray="8.0, 8.0" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="line" id="id10329">
+            <line x1="360.0" x2="360.0" y1="510.0" y2="20.0"
+                stroke-width="2.0" stroke="black"
+                stroke-dasharray="8.0, 8.0" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="line" id="id10330">
+            <line x1="410.0" x2="410.0" y1="510.0" y2="20.0"
+                stroke-width="2.0" stroke="black"
+                stroke-dasharray="8.0, 8.0" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="line" id="id10331">
+            <line x1="60.0" x2="550.0" y1="110.0" y2="110.0"
+                stroke-width="2.0" stroke="black"
+                stroke-dasharray="8.0, 8.0" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="line" id="id10332">
+            <line x1="60.0" x2="550.0" y1="160.0" y2="160.0"
+                stroke-width="2.0" stroke="black"
+                stroke-dasharray="8.0, 8.0" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="line" id="id10333">
+            <line x1="160.0" x2="160.0" y1="510.0" y2="230.0"
+                stroke-width="2.0" stroke="black"
+                stroke-dasharray="8.0, 8.0" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="line" id="id10334">
+            <line x1="210.0" x2="210.0" y1="510.0" y2="230.0"
+                stroke-width="2.0" stroke="black"
+                stroke-dasharray="8.0, 8.0" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="line" id="id10335">
+            <line x1="260.0" x2="260.0" y1="510.0" y2="20.0"
+                stroke-width="2.0" stroke="black"
+                stroke-dasharray="8.0, 8.0" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="line" id="id10336">
+            <line x1="210.0" x2="250.0" y1="510.0" y2="570.0"
+                stroke-width="2.0" stroke="black"
+                stroke-dasharray="8.0, 8.0"
+                latexdraw:rotationAngle="0.0" marker-start="url(#arrow1-10336)"/>
+        </g>
+        <g latexdraw:type="line" id="id10337">
+            <line x1="360.0" x2="410.0" y1="510.0" y2="570.0"
+                stroke-width="2.0" stroke="black"
+                stroke-dasharray="8.0, 8.0"
+                latexdraw:rotationAngle="0.0" marker-start="url(#arrow1-10337)"/>
+        </g>
+        <g latexdraw:type="line" id="id10338">
+            <line x1="520.0" x2="570.0" y1="160.0" y2="210.0"
+                stroke-width="2.0" stroke="black"
+                stroke-dasharray="8.0, 8.0"
+                latexdraw:rotationAngle="0.0" marker-start="url(#arrow1-10338)"/>
+        </g>
+        <g latexdraw:type="rectangle" id="id10339">
+            <rect x="251.0" y="591.0" width="78.0" height="38.0"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="none"/>
+        </g>
+        <g latexdraw:type="rectangle" id="id10340">
+            <rect x="391.0" y="591.0" width="38.0" height="38.0"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="none"/>
+        </g>
+        <g latexdraw:type="rectangle" id="id10341">
+            <rect x="571.0" y="231.0" width="38.0" height="38.0"
+                latexdraw:borderPos="outer" stroke-width="2.0"
+                stroke="black" fill="none"/>
+        </g>
+        <g latexdraw:type="text" id="id10342" font-family="Dialog"
+            fill="black" font-size="18" latexdraw:x="470.0">
+            <text x="470.0" y="80.0"><![CDATA[g0]]></text>
+        </g>
+        <g latexdraw:type="text" id="id10345" font-family="Dialog"
+            fill="black" font-size="18" latexdraw:x="120.0">
+            <text x="120.0" y="440.0"><![CDATA[g1]]></text>
+        </g>
+        <g latexdraw:type="line" id="id10348">
+            <line x1="290.0" x2="290.0" y1="590.0" y2="630.0"
+                stroke-width="2.0" stroke="black" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="text" id="id10349" font-family="Dialog"
+            fill="black" font-size="18" latexdraw:x="300.0">
+            <text x="300.0" y="615.0"><![CDATA[g1]]></text>
+        </g>
+        <g latexdraw:type="text" id="id10352" font-family="Dialog"
+            fill="black" font-size="18" latexdraw:x="260.0">
+            <text x="260.0" y="614.0"><![CDATA[g0]]></text>
+        </g>
+        <g latexdraw:type="text" id="id10355" font-family="Dialog"
+            fill="black" font-size="18" latexdraw:x="400.0">
+            <text x="400.0" y="616.0"><![CDATA[g0]]></text>
+        </g>
+        <g latexdraw:type="text" id="id10358" font-family="Dialog"
+            fill="black" font-size="18" latexdraw:x="579.0">
+            <text x="579.0" y="255.0"><![CDATA[g0]]></text>
+        </g>
+        <g latexdraw:type="text" id="id10361" font-family="Dialog"
+            fill="black" font-size="18" latexdraw:x="530.0">
+            <text x="530.0" y="258.0"><![CDATA[<7,]]></text>
+        </g>
+        <g latexdraw:type="text" id="id10364" font-family="Dialog"
+            fill="black" font-size="18" latexdraw:x="617.0">
+            <text x="617.0" y="259.0"><![CDATA[>]]></text>
+        </g>
+        <g latexdraw:type="text" id="id10367" font-family="Dialog"
+            fill="black" font-size="18" latexdraw:x="214.0">
+            <text x="214.0" y="618.0"><![CDATA[<3,]]></text>
+        </g>
+        <g latexdraw:type="text" id="id10370" font-family="Dialog"
+            fill="black" font-size="18" latexdraw:x="334.0">
+            <text x="334.0" y="617.0"><![CDATA[>]]></text>
+        </g>
+        <g latexdraw:type="text" id="id10373" font-family="Dialog"
+            fill="black" font-size="18" latexdraw:x="356.0">
+            <text x="356.0" y="617.0"><![CDATA[<6,]]></text>
+        </g>
+        <g latexdraw:type="text" id="id10376" font-family="Dialog"
+            fill="black" font-size="18" latexdraw:x="434.0">
+            <text x="434.0" y="616.0"><![CDATA[>]]></text>
+        </g>
+    </g>
+    <metadata>
+        <latexdraw:metadata>
+            <latexdraw:displayBorders>false</latexdraw:displayBorders>
+            <latexdraw:autoAdjust>true</latexdraw:autoAdjust>
+            <latexdraw:ppc>50</latexdraw:ppc>
+            <latexdraw:zoom>1.2</latexdraw:zoom>
+            <latexdraw:unit>cm</latexdraw:unit>
+            <latexdraw:classicGrid>false</latexdraw:classicGrid>
+            <latexdraw:gridGap>10</latexdraw:gridGap>
+            <latexdraw:code>0</latexdraw:code>
+            <latexdraw:displayGrid>true</latexdraw:displayGrid>
+            <latexdraw:magneticGrid>false</latexdraw:magneticGrid>
+            <latexdraw:autoUpdate>true</latexdraw:autoUpdate>
+            <latexdraw:version>2.0.8</latexdraw:version>
+            <latexdraw:size>
+                <latexdraw:width>778</latexdraw:width>
+                <latexdraw:height>582</latexdraw:height>
+            </latexdraw:size>
+            <latexdraw:position>
+                <latexdraw:x>0</latexdraw:x>
+                <latexdraw:y>0</latexdraw:y>
+            </latexdraw:position>
+            <latexdraw:dividerPosition>0.6298200514138818</latexdraw:dividerPosition>
+            <latexdraw:displayCodePanel>true</latexdraw:displayCodePanel>
+            <latexdraw:displayXScale>true</latexdraw:displayXScale>
+            <latexdraw:displayYScale>true</latexdraw:displayYScale>
+            <latexdraw:delimitorOpacity>130</latexdraw:delimitorOpacity>
+        </latexdraw:metadata>
+    </metadata>
+</svg>

@@ -1,0 +1,1389 @@
+\begin{lstlisting}[caption=ElementDictionary, label=listing2]
+ /**
+	 * The dictionary indexes the elements vertically and horizontally for fast
+	 * retrieval.
+	 * 
+	 * @author ryan
+	 * 
+	 */
+	class ElementDictionary {
+		private HashMap<Integer, LinkedList<Element>> v_map, h_map;
+		private ArrayList<Element> inc, exc;
+		private boolean hasExcludeChanged;
+
+		ElementDictionary(ArrayList<Element> exclude) {
+			v_map = new HashMap<Integer, LinkedList<Element>>();
+			h_map = new HashMap<Integer, LinkedList<Element>>();
+			this.inc = new ArrayList<Element>();
+			this.exc = exclude;
+			hasExcludeChanged = true;
+		}
+
+		private void build() {
+			v_map.clear();
+			h_map.clear();
+			ArrayList<Element> all = getElements();
+			all.removeAll(exc);
+			addAllToInc(all);
+			for (Element elt : all) {
+				subAdd(elt, elt.getX(), elt.getY(), elt.getWidth(),
+						elt.getHeight());
+				inc.add(elt);
+			}
+			hasExcludeChanged = false;
+		}
+
+		public void addToExc(Element elt) {
+			if (!inc.contains(elt) && !exc.contains(elt)) {
+				exc.add(elt);
+			}
+		}
+
+		public void addAllToExc(List<Element> elts) {
+			for (Element elt : elts) {
+				addToExc(elt);
+			}
+		}
+
+		public void addToInc(Element elt) {
+			if (!inc.contains(elt) && !exc.contains(elt)) {
+				subAdd(elt, elt.getX(), elt.getY(), elt.getWidth(),
+						elt.getHeight());
+				inc.add(elt);
+			}
+		}
+
+		public void addAllToInc(List<Element> elts) {
+			for (Element elt : elts) {
+				addToInc(elt);
+			}
+		}
+
+		public void include(Element elt) {
+			assert (!inc.contains(elt) && exc.contains(elt))
+					|| (inc.contains(elt) && !exc.contains(elt));
+			if (exc.contains(elt)) {
+				exc.remove(elt);
+				subAdd(elt, elt.getX(), elt.getY(), elt.getWidth(),
+						elt.getHeight());
+				inc.add(elt);
+			}
+		}
+
+		public void includeAll(List<Element> elts) {
+			for (Element elt : elts) {
+				include(elt);
+			}
+		}
+
+		public void includeAll() {
+			includeAll((ArrayList<Element>) exc.clone());
+			exc.clear();
+		}
+
+		public void exclude(Element elt) {
+			assert (!inc.contains(elt) && exc.contains(elt))
+					|| (inc.contains(elt) && !exc.contains(elt));
+			if (inc.contains(elt)) {
+				inc.remove(elt);
+				subRemove(elt, elt.getX(), elt.getY(), elt.getWidth(),
+						elt.getHeight());
+				exc.add(elt);
+			}
+		}
+
+		public void excludeAll(List<Element> elts) {
+			for (Element elt : elts) {
+				exclude(elt);
+			}
+		}
+
+		public void excludeAll() {
+			excludeAll((ArrayList<Element>) inc.clone());
+			inc.clear();
+		}
+
+		public void remove(Element elt) {
+			if (inc.remove(elt)) {
+				subRemove(elt, elt.getX(), elt.getY(), elt.getWidth(),
+						elt.getHeight());
+				assert !exc.contains(elt);
+			} else if (exc.remove(elt)) {
+				// Do nothing.
+			}
+		}
+
+		public void removeAll(List<Element> elts) {
+			for (Element elt : elts) {
+				remove(elt);
+			}
+		}
+		
+		public void rotate(Element elt){
+			if (inc.contains(elt)){
+				subRemove(elt, elt.getX(), elt.getY(), elt.getOldWidth(),
+						elt.getOldHeight());
+				subAdd(elt, elt.getX(), elt.getY(), elt.getWidth(),
+						elt.getHeight());
+			}
+		}
+
+		public void scale(Element elt) {
+			if (inc.contains(elt)) {
+				subRemove(elt, elt.getX(), elt.getY(), elt.getOldWidth(),
+						elt.getOldHeight());
+				subAdd(elt, elt.getX(), elt.getY(), elt.getWidth(),
+						elt.getHeight());
+			}
+		}
+
+		public void move(Element elt) {
+			if (inc.contains(elt)) {
+				subRemove(elt, elt.getOldX(), elt.getOldY(), elt.getWidth(),
+						elt.getHeight());
+				subAdd(elt, elt.getX(), elt.getY(), elt.getWidth(),
+						elt.getHeight());
+			}
+		}
+
+		public void moveAll(List<Element> elts) {
+			for (Element elt : elts) {
+				move(elt);
+			}
+		}
+
+		private void subAdd(Element elt, int x, int y, int w, int h) {
+			for (int i = x; i <= x + w; i++) {
+				LinkedList<Element> list = v_map.get(i);
+				if (list == null) {
+					list = new LinkedList<Element>();
+					v_map.put(i, list);
+				}
+				list.add(elt);
+			}
+			for (int j = y; j <= y + h; j++) {
+				LinkedList<Element> list = h_map.get(j);
+				if (list == null) {
+					list = new LinkedList<Element>();
+					h_map.put(j, list);
+				}
+				list.add(elt);
+			}
+		}
+
+		private void subRemove(Element elt, int x, int y, int w, int h) {
+			for (int i = x; i <= x + w; i++) {
+				LinkedList<Element> list = v_map.get(i);
+				assert list != null;
+				list.remove(elt);
+			}
+
+			for (int j = y; j <= y + h; j++) {
+				LinkedList<Element> list = h_map.get(j);
+				assert list != null;
+				list.remove(elt);
+			}
+		}
+
+		// public void setExcludeChanged() {
+		// hasExcludeChanged = true;
+		// }
+		//
+		// public void setExclude(ArrayList<Element> exc) {
+		// includeAll(this.exc);
+		// this.inc.addAll(exc);
+		// this.exc = exc;
+		// hasExcludeChanged = true;
+		// }
+
+		// public void update(List<Element> moved_elts) {
+		//
+		// }
+
+		public LinkedList<Element> getElementsAtRow(int y) {
+			if (hasExcludeChanged) {
+				build();
+				hasExcludeChanged = false;
+			}
+			return h_map.get(y);
+		}
+
+		public LinkedList<Element> getElementsAtColumn(int x) {
+			if (hasExcludeChanged) {
+				build();
+				hasExcludeChanged = false;
+			}
+			return v_map.get(x);
+		}
+
+		/**
+		 * 
+		 * @param elt
+		 * @return true - if 'elt' overlaps any Element in the dictionary
+		 *         (includeing the case 'elt' is in the dictionary and is not in
+		 *         exclude).
+		 */
+		public boolean overlapping(Element elt) {
+			return overlapping(elt.getX(), elt.getY(), elt.getWidth(),
+					elt.getHeight());
+		}
+
+		/**
+		 * 
+		 * @param x
+		 * @param y
+		 * @param w
+		 * @param h
+		 * @return
+		 */
+		public boolean overlapping(int x, int y, int w, int h) {
+			if (hasExcludeChanged) {
+				build();
+				hasExcludeChanged = false;
+			}
+			if (w <= 1) {
+				boolean b1 = true, b2 = true;
+				if (overlappingSub(x, y, h, true)) {
+					b1 = overlappingSub(x + 1, y, h, true);
+					if (w == 0)
+						b2 = overlappingSub(x - 1, y, h, true);
+					if (b1 && b2)
+						return true;
+				}
+			}
+			for (int i = x + 1; i < x + w; i++) {
+				if (overlappingSub(i, y, h, true)) {
+					return true;
+				}
+			}
+			if (h <= 1) {
+				boolean b1 = true, b2 = true;
+				if (overlappingSub(y, x, w, false)) {
+					b1 = overlappingSub(y + 1, x, w, false);
+					if (h == 0)
+						b2 = overlappingSub(y - 1, x, w, false);
+					if (b1 && b2)
+						return true;
+				}
+			}
+			for (int j = y + 1; j < y + h; j++) {
+				if (overlappingSub(j, x, w, false)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/**
+		 * Decide if the line formed by i, base and span overlaps any Element.
+		 * If isVertical == true, then the line is (i, base) (i, base+span); if
+		 * isVertical == false, then the line is (base, i), (base+span, i)
+		 * 
+		 * @param i
+		 *            - The coordinate that the end points of the line share.
+		 * @param base
+		 * @param span
+		 * @param isVertical
+		 * @return
+		 */
+		private boolean overlappingSub(int i, int base, int span,
+				boolean isVertical) {
+			if (isVertical) {
+				LinkedList<Element> list = v_map.get(i);
+				if (list != null) {
+					for (Element tgt : list) {
+						int ty1 = tgt.getY();
+						int ty2 = ty1 + tgt.getHeight();
+						int ey1 = base;
+						int ey2 = ey1 + span;
+						if (Decider.overlap(ty1, ty2, ey1, ey2, false)) {
+							return true;
+						}
+					}
+				}
+			} else {
+				LinkedList<Element> list = dic_exc.getElementsAtRow(i);
+				if (list != null) {
+					for (Element tgt : list) {
+						int tx1 = tgt.getX();
+						int tx2 = tx1 + tgt.getWidth();
+						int ex1 = base;
+						int ex2 = ex1 + span;
+						if (Decider.overlap(tx1, tx2, ex1, ex2, false)) {
+							return true;
+						}
+					}
+				}
+			}
+			return false;
+		}
+	}
+\end{lstlisting}
+\begin{lstlisting}[caption=EdgeManager, label=listing3]
+ public class EdgeManager {
+	private WireManager wm;
+	private ElementManager em;
+	private HashMap<Integer, ArrayList<WireEdge>> h_edges, v_edges;
+	private ArrayList<Edge> overlap;
+	private boolean needToBuild, needToRenewOverlap;
+
+	public EdgeManager() {
+		h_edges = new HashMap<Integer, ArrayList<WireEdge>>();
+		v_edges = new HashMap<Integer, ArrayList<WireEdge>>();
+		// h_ps = new HashMap<Integer, ArrayList<RoutingPoint>>();
+		// v_ps = new HashMap<Integer, ArrayList<RoutingPoint>>();
+		overlap = new ArrayList<Edge>();
+		needToBuild = true;
+		needToRenewOverlap = true;
+	}
+
+	public void init() {
+		this.wm = CircuitManager.getInstance().getWireManager();
+		this.em = CircuitManager.getInstance().getElementManager();
+	}
+	
+	public void clear(){
+		h_edges = new HashMap<Integer, ArrayList<WireEdge>>();
+		v_edges = new HashMap<Integer, ArrayList<WireEdge>>();
+		// h_ps = new HashMap<Integer, ArrayList<RoutingPoint>>();
+		// v_ps = new HashMap<Integer, ArrayList<RoutingPoint>>();
+		overlap = new ArrayList<Edge>();
+		needToBuild = true;
+		needToRenewOverlap = true;
+	}
+
+	protected void build() {
+		h_edges.clear();
+		v_edges.clear();
+		for (Wire wire : wm.getWires()) {
+			subAddWire(wire);
+		}
+		needToBuild = false;
+		needToRenewOverlap = true;
+	}
+
+	private void subAddWire(Wire wire) {
+		for (WireEdge edge : wire.getRoutingEdges()) {
+			if (edge.isVertical()) {
+				ArrayList<WireEdge> list = v_edges.get(edge.getP1().getX());
+				if (list == null) {
+					list = new ArrayList<WireEdge>();
+					v_edges.put(edge.getP1().getX(), list);
+				}
+				v_edges.get(edge.getP1().getX()).add(edge);
+			} else {
+				ArrayList<WireEdge> list = h_edges.get(edge.getP1().getY());
+				if (list == null) {
+					list = new ArrayList<WireEdge>();
+					h_edges.put(edge.getP1().getY(), list);
+				}
+				h_edges.get(edge.getP1().getY()).add(edge);
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @return An ArrayList of Edges representing the places of overlapping.
+	 *         Note the Edges are not RoutingEdges.
+	 */
+	public ArrayList<Edge> getOverlapping() {
+		if (needToRenewOverlap) {
+			overlap.clear();
+			build();
+			// Overlapping between Wires
+			for (ArrayList<WireEdge> list : v_edges.values()) {
+				for (int i = 0; i < list.size(); i++) {
+					for (int j = i + 1; j < list.size(); j++) {
+						WireEdge e1 = list.get(i);
+						WireEdge e2 = list.get(j);
+						Edge overlap_edge = WireEdge.getOverlap(e1, e2);
+						if (overlap_edge != null) {
+							overlap.add(overlap_edge);
+						}
+					}
+
+				}
+			}
+			for (ArrayList<WireEdge> list : h_edges.values()) {
+				for (int i = 0; i < list.size(); i++) {
+					for (int j = i + 1; j < list.size(); j++) {
+						WireEdge e1 = list.get(i);
+						WireEdge e2 = list.get(j);
+						Edge overlap_edge = WireEdge.getOverlap(e1, e2);
+						if (overlap_edge != null) {
+							overlap.add(overlap_edge);
+						}
+					}
+				}
+			}
+			ElementDictionary dic = em.getElementDictionary();
+			// Overlapping between Wires and Elements
+			for (Integer key : v_edges.keySet()) {
+				for (WireEdge edge : v_edges.get(key)) {
+					LinkedList<Element> list = dic.getElementsAtColumn(key);
+					if (list != null) {
+						for (Element elt : list) {
+							Edge overlap_edge = WireEdge.getOverlap(edge, elt);
+							if (overlap_edge != null) {
+								overlap.add(overlap_edge);
+							}
+						}
+					}
+				}
+			}
+			for (Integer key : h_edges.keySet()) {
+				for (WireEdge edge : h_edges.get(key)) {
+					LinkedList<Element> list = dic.getElementsAtRow(key);
+					if (list != null) {
+						for (Element elt : list) {
+							Edge overlap_edge = WireEdge.getOverlap(edge, elt);
+							if (overlap_edge != null) {
+								overlap.add(overlap_edge);
+							}
+						}
+					}
+				}
+			}
+			needToRenewOverlap = false;
+		}
+		return overlap;
+	}
+
+	public WireEdge getEdgeAt(int x, int y) {
+		if (needToBuild) {
+			build();
+		}
+		ArrayList<WireEdge> list = v_edges.get(x);
+		if (list != null) {
+			for (WireEdge edge : list) {
+				int min_y = Math.min(edge.getP1().getY(), edge.getP2().getY());
+				int max_y = Math.max(edge.getP1().getY(), edge.getP2().getY());
+				if (min_y <= y && y < max_y) {
+					return edge;
+				}
+			}
+		}
+		list = h_edges.get(y);
+		if (list != null) {
+			for (WireEdge edge : list) {
+				int min_x = Math.min(edge.getP1().getX(), edge.getP2().getX());
+				int max_x = Math.max(edge.getP1().getX(), edge.getP2().getX());
+				if (min_x <= x && x < max_x) {
+					return edge;
+				}
+			}
+		}
+		return null;
+	}
+
+	protected void update() {
+		needToBuild = true;
+		needToRenewOverlap = true;
+	}
+
+	protected void needToBuild() {
+		needToBuild = true;
+	}
+
+	protected void needToRenewOverlap() {
+		needToRenewOverlap = true;
+	}
+}
+
+\end{lstlisting}
+
+\begin{table}
+ \begin{tabular}{p{6cm} | p{8cm}} 
+  Command Name & Parameters \\
+ \hline
+  CREATE\_GATE & x:int - the x-coordinate of the new gate\\
+	      & y:int - the y-coordinate of the new gate \\
+ \hline
+  CREATE_FANOUT & wire:Wire - the wire on which the fanout will be added \\
+		& index:int - the index of the wire edge that the fanout will be added to \\
+		& x:int - the x-coordinate of the fanout \\
+		& y:int - the y-coordinate of the fanout \\
+ \hline
+  CREATE_WIRE_EDGE & wire:Wire - the wire on which the new edge will be created \\
+		  & index:int - the index of the wire edge on which the new edge will be added to. \\
+		  & x1:int - the x-coordinate of the first point \\
+		  & y1:int - the y-coordinate of the first point \\
+		  & x2:int - the x-coordinate of the second point \\
+		  & y2:int - the y-coordinate of the second point \\
+ \hline
+  DELETE & \\
+ \hline
+  MOVE & dx:int - the x displacement \\
+      & dy:int - the y displacement \\
+ \hline
+  ROTATE & isClockWise:boolean - if the rotation is by 90 degrees clockwise \\
+ \hline
+  CHANGE_NUMBER_OF_INPORT & num_ips:int - the new number of inports \\
+ \hline
+  CHANGE_NUMBER_OF_OUTPORT & num_ops:int - the new number of outports \\
+ \hline
+  CHANGE_MAX_DELAY & max_delay:long - the new value of maximum delay \\
+ \hline
+  CHANGE_MIN_DELAY & min_delay:long - the new value of minimum delay \\
+ \hline
+  SELECT_WIRE & wire:Wire - the wire to be selected \\
+ \hline
+  SELECT_WIRE_EDGE & edge:WireEdge - the WireEdge to be selected \\
+ \hline
+  SELECT_ELEMENT & elt:Element - the Element to be selected \\
+ \hline
+  SELECT_MULTI_ELEMENT & elt:Element - the Element to be taken xor with the selected Elements \\
+ \hline
+  SELECT_GROUP_ELEMENT & elts:List<Element> - the list of Elements to be selected.  Previous selection will be deselected. \\
+ \hline
+  SELECT_GROUP_MULTI_ELEMENT & elts:List<Element> - the list of elements to be added to the selection. \\
+ \hline
+  DESELECT & \\
+ \hline
+  UNDO & \\
+ \hline
+  REDO & \\
+ \hline
+  COPY & \\
+ \hline
+  PASTE & \\
+
+ \end{tabular}
+\caption{A list of command names and parameters for the editor} \label{tab:table1}
+\end{table}
+
+\begin{lstlisting}[caption=ElementDictionary, label=listing7]
+public abstract class AbstractScript {
+	private LinkedList<DelayValuePair> history = new LinkedList<DelayValuePair>();
+
+	abstract DelayValuePair getNextPair();
+
+	/**
+	 * Restoring all children Loops to their initial value. This is for starting
+	 * a new outer Loop.
+	 */
+	abstract public void restore();
+
+	public DelayValuePair getNextPairLogging() {
+		DelayValuePair temp = getNextPair();
+		if (temp != null) {
+			history.addLast(temp);
+		}
+		return temp;
+	}
+	
+	public void restoreCleanseHistory(){
+		this.restore();
+		history.clear();
+	}
+	
+	public String historyToString(){
+		StringBuffer buffer = new StringBuffer();
+		for (DelayValuePair pair:history){
+			buffer.append(pair.toString());
+		}
+		return buffer.toString();
+	}
+
+	// ====================================================
+	// AbstractScriptParser
+	// ====================================================
+
+	public static AbstractScript parse(String string) {
+		if (isValid(string)) {
+			return subParse(string);
+		} else {
+			return null;
+		}
+	}
+
+	public static boolean isValid(String string) {
+		string = string.trim();
+		int i = isFirstOrSecondType(string);
+		int j = isThirdorFourthType(string);
+		System.out.println("i==" + i + ", j==" + j);
+		System.out
+				.println("\""
+						+ string
+						+ "\" is "
+						+ (i > 0 ? "type \"loop n (S) S\""
+								: (i == -1 ? "type \"loop n (S)\""
+										: (j > 0 ? "type \"<long, LogicValue> S\""
+												: (j == -1 ? "type \"<long, LogicValue>\""
+														: "Invalid")))));
+		System.out.println();
+		if (((i > 0 || i == -1) && j == 0) || (i == 0 && (j > 0 || j == -1))) {
+			if (i > 0) { // Type "loop n (S) S"
+				return isValid(string.substring(0, i))
+						&& isValid(string.substring(i));
+			} else if (i == -1) { // Type "loop n (S)"
+
+				Pattern num_loop_pattern = Pattern
+						.compile("loop\\s+[0-9]+\\s*");
+				Matcher num_loop_matcher = num_loop_pattern.matcher(string);
+				num_loop_matcher.find();
+				int after_loop_num_index;
+				try {
+					after_loop_num_index = num_loop_matcher.end();
+				} catch (IllegalStateException e) {
+					return false;
+				}
+
+				String substring = string.substring(after_loop_num_index + 1,
+						string.length() - 1);
+				System.out.println("\"" + string + "\" has substring \""
+						+ substring + "\"");
+				return isValid(substring);
+			} else if (j > 0) { // Type "<long, LogicValue> S"
+				return isValid(string.substring(0, j))
+						&& isValid(string.substring(j));
+			} else { // Type "<long, LogicValue>"
+				assert j == -1;
+				return Pattern.matches("<\\s*[0-9]+\\s*,\\s*[01xX]\\s*>",
+						string);
+			}
+		} else {
+			return false;
+		}
+	};
+
+	/**
+	 * A recursive method employing a divide and conquer idea.
+	 * 
+	 * The input string has the following CFG: S = loop n (S) | loop n (S) S |
+	 * <long, LogicValue> S | <long, LogicValue>
+	 * 
+	 * @param input
+	 *            - of type {String, Map<String, AbstractScript>}
+	 * @return
+	 */
+	private static AbstractScript subParse(String input) {
+
+		String str = input.trim();
+
+		Pattern single_pair_pattern = Pattern
+				.compile("<\\s*[0-9]+\\s*,\\s*[01xX]\\s*>"); // Eg, %var1%
+		Matcher single_pair_matcher = single_pair_pattern.matcher(str);
+		if (single_pair_matcher.matches()) { // Type "<long, LogicValue>"
+			// Split the input string into two parts
+			String delims = ",\\s*";
+			String[] tokens = str.split(delims);
+			assert tokens.length == 2;
+
+			// Match the delay
+			Pattern number_pattern = Pattern.compile("[0-9]+");
+			Matcher number_matcher = number_pattern.matcher(tokens[0]);
+			number_matcher.find();
+			String delay_string = number_matcher.group();
+			long delay = Long.parseLong(delay_string);
+
+			// Match the logic value
+			String second_part = tokens[1];
+			// Try to get the very first character of second_part
+			String logic_string = second_part.substring(0, 1);
+			LogicValue logic_value = getLogicValue(logic_string);
+			DelayValuePair delay_value_pair = new DelayValuePair(delay,
+					logic_value);
+
+			return new Single(delay_value_pair);
+		} else {
+			int i = isFirstOrSecondType(str);
+			if (i < 0) { // Type "long n (S)"
+				int first_bracket = str.indexOf("(");
+				AbstractScript feedback = subParse(str.substring(first_bracket+1,
+						str.length() - 1));
+
+				Pattern num_loop_pattern = Pattern.compile("[0-9]+");
+				Matcher num_loop_matcher = num_loop_pattern.matcher(str);
+				num_loop_matcher.find();
+				String num_loop_str = num_loop_matcher.group();
+				long num_loop = Long.parseLong(num_loop_str);
+
+				return new Loop(num_loop, feedback);
+			} else if (i > 0) { // Type "loop n (S) S"
+				AbstractScript left = subParse(str.substring(0, i));
+				AbstractScript right = subParse(str.substring(i));
+				return new Sequence(left, right);
+			} else { // Type "<long, LogicValue> S"
+				int j = isThirdorFourthType(str);
+				System.out.println("j="+j);
+				System.out.println("Script under parsing is \""+str+"\"");
+				assert j > 0;
+				AbstractScript left = subParse(str.substring(0, j));
+				AbstractScript right = subParse(str.substring(j));
+				return new Sequence(left, right);
+			}
+		}
+	}
+
+	/**
+	 * Get the logic value corresponding to l
+	 * 
+	 * @param str
+	 * @return
+	 */
+	private static LogicValue getLogicValue(String str) {
+		assert str.length() == 1;
+		assert str.equals("0") || str.equals("1")
+				|| str.toLowerCase().equals("x");
+		if (str.equals("0")) {
+			return LogicValue.ZERO;
+		} else if (str.equals("1")) {
+			return LogicValue.ONE;
+		} else {
+			return LogicValue.X;
+		}
+	}
+
+	/**
+	 * Test if the input string is of type "loop n (S)" or "loop n (S) S". This
+	 * is done by counting brackets.
+	 * 
+	 * @param string
+	 * @return i>0 - the input string is of type "loop n (S) S", i represents
+	 *         the end index of "loop n (S)" + 1 -1 - the input string is of
+	 *         type "loop n (S)" 0 - the input string is of other types
+	 */
+	private static int isFirstOrSecondType(String string) {
+		string.trim();
+		if (Pattern.matches("loop\\s+[0-9]+.+", string)) {
+			char[] chars = string.toCharArray();
+			int left_count = 0, right_count = 0;
+			for (int i = 0; i < string.length(); i++) {
+				if (left_count != 0 && left_count == right_count) {
+					return i;
+				}
+				if (chars[i] == '(') {
+					left_count++;
+				} else if (chars[i] == ')') {
+					right_count++;
+				}
+				assert left_count >= right_count;
+			}
+			assert left_count == right_count;
+			return -1;
+		}
+		return 0;
+	}
+
+	/**
+	 * Test if the input string is of type "<long, LogicValue>" or
+	 * "<long, LogicValue> S". This is done by counting brackets.
+	 * 
+	 * @param string
+	 * @return -1 - the input string is of type "<long, LogicValue>" i>0 - the
+	 *         input string is of type "<long, LogicValue> S", i represents the
+	 *         end index of "<long, LogicValue>" + 1
+	 */
+	private static int isThirdorFourthType(String string) {
+		string.trim();
+		Pattern single_pattern = Pattern
+				.compile("<\\s*[0-9]+\\s*,\\s*[01xX]\\s*>");
+		Matcher single_matcher = single_pattern.matcher(string);
+		if (single_matcher.find() && single_matcher.start() == 0) {
+			int end_index = single_matcher.end();
+			if (end_index == string.length()) {
+				return -1;
+			} else {
+				return end_index;
+			}
+		} else {
+			return 0;
+		}
+	}
+
+	// ====================================================
+	// Inner classes
+	// ====================================================
+
+	static class Loop extends AbstractScript {
+		private long n, m;
+		private AbstractScript child;
+
+		Loop(long n, AbstractScript child) {
+			assert n > 0;
+			this.n = n;
+			this.m = n;
+			this.child = child;
+		}
+
+		public long getTotalLoopCount() {
+			return n;
+		}
+
+		public long getLoopCountDown() {
+			return m;
+		}
+
+		public AbstractScript getChild() {
+			return child;
+		}
+
+		@Override
+		DelayValuePair getNextPair() {
+			DelayValuePair temp = child.getNextPair();
+			if (temp == null){
+				m--;
+				if (m<=0){
+					return null;
+				}else{
+					child.restore();
+					temp = child.getNextPair();
+					assert temp != null;
+					return temp;
+				}
+			}
+			else{
+				return temp;
+			}
+		}
+
+		@Override
+		public void restore() {
+			this.m = n;
+			child.restore();
+		}
+
+	}
+
+	static class Sequence extends AbstractScript {
+		private AbstractScript left, right;
+
+		Sequence(AbstractScript left, AbstractScript right) {
+			this.left = left;
+			this.right = right;
+		}
+
+		@Override
+		DelayValuePair getNextPair() {
+			DelayValuePair temp = left.getNextPair();
+			if (temp == null) {
+				temp = right.getNextPair();
+			}
+			return temp;
+		}
+
+		@Override
+		public void restore() {
+			left.restore();
+			right.restore();
+		}
+
+	}
+
+	static class Single extends AbstractScript {
+		private boolean visited;
+		private DelayValuePair pair;
+
+		Single(DelayValuePair pair) {
+			this.pair = new DelayValuePair(pair);
+		}
+
+		public DelayValuePair getDelayValuePair() {
+			return pair;
+		}
+
+		@Override
+		DelayValuePair getNextPair() {
+			if (visited)
+				return null;
+			else {
+				visited = true;
+				return pair;
+			}
+		}
+
+		@Override
+		public void restore() {
+			this.visited = false;
+		}
+	}
+
+	static class DelayValuePair {
+		private long delay;
+		private LogicValue value;
+
+		DelayValuePair(long delay, LogicValue value) {
+			this.delay = delay;
+			this.value = value;
+		}
+
+		DelayValuePair(DelayValuePair pair) {
+			this.delay = pair.getDelay();
+			this.value = pair.getLogicValue();
+		}
+
+		public long getDelay() {
+			return delay;
+		}
+
+		public LogicValue getLogicValue() {
+			return value;
+		}
+		
+		@Override
+		public String toString(){
+			return "<"+delay+","+value.toString()+">";
+		}
+	}
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Scheduler, label=listing8]
+public class Scheduler implements SchedulerInterface {
+	private GateFactory gf;
+	private TransitionEventFactory tef;
+	private EventList el;
+	private GateEventListManager gelm;
+	private HashMap<String, String> most_recent_history;
+	private static Scheduler instance;
+
+	public static Scheduler getInstance() {
+		if (instance == null) {
+			instance = new Scheduler();
+			instance.initialize();
+		}
+		return instance;
+	}
+
+	private Scheduler() {
+		this.gf = GateFactory.getInstance();
+		this.tef = TransitionEventFactory.getInstance();
+		this.el = new EventList();
+		this.gelm = new GateEventListManager();
+		this.most_recent_history = new HashMap<String, String>();
+	}
+
+	protected void initialize() {
+		gelm.initialize();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.asys.simulator.SchedulerInterface#getNextTransitionEventId()
+	 */
+	public String getNextTransitionEventId() throws IdNotExistException, SchedulerEmptyException {
+		if (isEmpty()) {
+			throw new SchedulerEmptyException();
+		} else {
+			String next_event_id = el.removeFirst();
+			TransitionEvent next_event = tef.getTransitionEvent(next_event_id);
+			EventList gel = gelm.getEventList(next_event.getGateId());
+			String next_event_id2 = gel.removeFirst();
+			assert next_event_id.equals(next_event_id2);
+			return next_event_id;
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.asys.simulator.SchedulerInterface#getNextTransitionEventIdNoEffect()
+	 */
+	public String getNextTransitionEventIdNoEffect() throws IdNotExistException, SchedulerEmptyException{
+		if (isEmpty()) {
+			throw new SchedulerEmptyException();
+		} else {
+			String next_event_id = el.getFirst();
+			TransitionEvent next_event = tef.getTransitionEvent(next_event_id);
+			EventList gel = gelm.getEventList(next_event.getGateId());
+			String next_event_id2 = gel.getFirst();
+			assert next_event_id.equals(next_event_id2);
+			return next_event_id;
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.asys.simulator.SchedulerInterface#reset()
+	 */
+	public void reset(){
+		this.gf = GateFactory.getInstance();
+		this.tef = TransitionEventFactory.getInstance();
+		this.el = new EventList();
+		this.gelm = new GateEventListManager();
+		initialize();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.asys.simulator.SchedulerInterface#schedule(java.lang.String)
+	 */
+	public ArrayList<String> schedule(String transition_event_id)
+			throws IdNotExistException, IdExistException {
+		return scheduleEventNotForCGate(transition_event_id);
+	}
+
+	/**
+	 * For non-C gates, their transition events are scheduled by the follow scheme:
+	 * 
+	 * If the event e1 to be scheduled is a start event, then all end events that are already scheduled 
+	 * for the gate and are simultaneous with or later than e1 are removed.  If there is a start event
+	 * immediately before e1, then e1 is STILL scheduled.  This is for checking common ambiguities.
+	 * 
+	 * If the event e2 to be scheduled is an end event, then it is added to the end of the events of 
+	 * the gate.
+	 * 
+	 * There some important invariants about the list of scheduled transition events of a non-C gate:
+	 * 1. There are not contiguous or simultaneous start events.
+	 * 2. End events before start events must have been scheduled earlier than the start events.
+	 * 3. Any newly start event scheduled must be the last start event in the queue.
+	 * 4. Any newly end event scheduled must be the last end event in the queue.
+	 * 
+	 * @param transition_event_id
+	 * @return an ArrayList of IDs of TransitionEvents that can be safely removed from transition event factory
+	 * @throws IdNotExistException
+	 * @throws IdExistException 
+	 */
+	private ArrayList<String> scheduleEventNotForCGate(
+			String transition_event_id) throws IdNotExistException,
+			IdExistException {
+		// Assert that the transtion_event_id is NOT targeting a C element
+		TransitionEvent event = tef.getTransitionEvent(transition_event_id);
+		String gate_id = event.getGateId();
+		// assert !(gate.getElement() instanceof CGate);
+
+		ArrayList<String> waste = new ArrayList<String>();
+
+		EventList gel = gelm.getEventList(gate_id);
+		if (tef.isStartEvent(transition_event_id)) {
+			/* 
+			 * Remove all scheduled events for the gate after this start event.  
+			 * By invariant 3, those removed can only be end events.
+			 */
+			List<String> useless_end_events = gel.removeEventsAtOrAfter(event
+					.getCircuitTime());
+			for (String id : useless_end_events) {
+				waste.add(id);
+			}
+			el.removeEvents(useless_end_events);
+
+			// Check if the previous event is a start event
+			int i = gelm.getInsertionPosition(transition_event_id);
+			String previous_event_id = gelm
+					.getTransitionEventAt(gate_id, i - 1);
+			if (previous_event_id != null
+					&& tef.isStartEvent(previous_event_id)) {
+				// The following is wrong: the event is not scheduled
+				// This event is still scheduled
+//				gel.insertEvent(transition_event_id);
+//				el.insertEvent(transition_event_id);
+			} else {// The previous event is not a start event
+				gel.insertEvent(transition_event_id);
+				el.insertEvent(transition_event_id);
+			}
+			return waste;
+		} else {
+			gel.insertEvent(transition_event_id);
+			el.insertEvent(transition_event_id);
+		}
+		most_recent_history.put(gate_id, transition_event_id);
+		return waste;
+	}
+	
+	protected String getMostRecentHistory(String gate_id){
+		return most_recent_history.get(gate_id);
+	}
+
+	protected EventList getEventListForGate(String gate_id) {
+		if (gelm.hasKey(gate_id)) {
+			try {
+				return gelm.getEventList(gate_id);
+			} catch (IdNotExistException e) {
+				System.out.println("Should never have happened!");
+				e.printStackTrace();
+			}
+			return null;
+		} else {
+			return null;
+		}
+	}
+
+	protected int getTotalNumberOfEventsOnScheduler() {
+		return el.getCurrentNumberOfEvents();
+	}
+
+	protected boolean isEmpty() {
+		return el.getCurrentNumberOfEvents() <= 0;
+	}
+
+	// /**
+	// * For C gates, their transition events are scheduled by the follow
+	// scheme:
+	// *
+	// * To schedule a start event e1 on one input, firstly check the state of
+	// the other input. If the
+	// * other input has binary value, then
+	// *
+	// * @param transition_event_id
+	// * @return
+	// * @throws IdNotExistException
+	// * @throws IdExistException
+	// */
+	// private ArrayList<String> scheduleEventForCGate(
+	// String transition_event_id) throws IdNotExistException,
+	// IdExistException {
+	//
+	//
+	// }
+
+	/**
+	 * This class is for keeping track of the list of scheduled events.
+	 * 
+	 * @author ryan
+	 * 
+	 */
+	public class EventList {
+		private LinkedList<String> list;
+
+		protected EventList() {
+			list = new LinkedList<String>();
+		}
+
+		protected int getInsertionPosition(String event_id)
+				throws IdExistException, IdNotExistException {
+			if (list.contains(event_id)) {
+				throw new IdExistException(event_id);
+			} else {
+				TransitionEvent new_event = tef.getTransitionEvent(event_id);
+				assert new_event != null;
+				int i = 0;
+				for (String id : list) {
+					TransitionEvent event = tef.getTransitionEvent(id);
+					if (new_event.getCircuitTime() < event.getCircuitTime()
+							|| (new_event.getCircuitTime() == event
+									.getCircuitTime()
+									&& tef.isStartEvent(event_id) && !tef
+									.isStartEvent(id))) {
+						break;
+					}
+					i++;
+				}
+				return i;
+			}
+		}
+
+		/**
+		 * Inserting an event_id into the list of event IDs.
+		 * 
+		 * The position of the inserted event_id depends on the time and type of the event inserted (start or end event).
+		 * 
+		 * The list is ordered by increasing circuit time.
+		 * 
+		 * If two events have the same circuit time, then start event has precedence over end event.
+		 * 
+		 * Otherwise, the first inserted event takes precedence.
+		 * 
+		 * @param event_id
+		 * @return the index at which the new event ID is inserted.
+		 * @throws IdExistException
+		 * @throws IdNotExistException 
+		 */
+		protected int insertEvent(String event_id) throws IdExistException,
+				IdNotExistException {
+			int i = getInsertionPosition(event_id);
+			list.add(i, event_id);
+			return i;
+		}
+
+		protected String getFirst() {
+			if (list.isEmpty()){
+				return null;
+			}else{
+				return list.getFirst();
+			}
+		}
+
+		protected String getLast() {
+			if (list.isEmpty()){
+				return null;
+			}else{
+				return list.getLast();
+			}
+		}
+
+		protected String getAt(int i) {
+			if (0 <= i && i < list.size()) {
+				return list.get(i);
+			} else {
+				return null;
+			}
+		}
+
+		protected String removeFirst() {
+			return list.removeFirst();
+		}
+
+		protected String removeLast() {
+			return list.removeLast();
+		}
+
+		protected boolean remove(String event_id) {
+			return list.removeFirstOccurrence(event_id);
+		}
+
+		/**
+		 * Return all event IDs stored.  It is important that the returned list is NOT modified in any way.
+		 * @return
+		 */
+		protected LinkedList<String> getAllEvents() {
+			return list;
+		}
+
+		/**
+		 * Return an ArrayList of event IDs that are at or later than the time
+		 * @param time
+		 * @return
+		 */
+		protected List<String> getEventsAtOrAfter(long time) {
+			int i = 0;
+			for (String event_id : list) {
+				TransitionEvent event = tef.getTransitionEvent(event_id);
+				assert event != null;
+				if (time <= event.getCircuitTime()) {
+					break;
+				}
+				i++;
+			}
+			return list.subList(i, list.size());
+		}
+
+		/**
+		 * Remove and return an ArrayList of event IDs that are at or later than the time
+		 * @param time
+		 * @return
+		 */
+		protected List<String> removeEventsAtOrAfter(long time) {
+			int i = 0;
+			for (String event_id : list) {
+				TransitionEvent event = tef.getTransitionEvent(event_id);
+				assert event != null;
+				if (time <= event.getCircuitTime()) {
+					break;
+				}
+				i++;
+			}
+			List<String> result = new LinkedList<String>();
+
+			result.addAll(list.subList(i, list.size()));
+
+			// Remove event IDs from the list
+			int size = list.size();
+			for (int j = i; j < size; j++) {
+				list.remove(i);
+			}
+
+			return result;
+		}
+
+		protected void removeEvents(List<String> event_ids) {
+			list.removeAll(event_ids);
+		}
+
+		protected int getCurrentNumberOfEvents() {
+			return list.size();
+		}
+	}
+
+	/**
+	 * Used for tracking what events have been scheduled for each gate.
+	 * @author ryan
+	 * 
+	 */
+	private class GateEventListManager {
+		private HashMap<String, EventList> map;
+
+		protected GateEventListManager() {
+			// Do nothing
+		}
+
+		protected void initialize() {
+			this.map = new HashMap<String, EventList>();
+			for (String gate_id : GateFactory.getInstance().getGateIds()) {
+				map.put(gate_id, new EventList());
+			}
+		}
+
+		protected boolean hasKey(String gate_id) {
+			return map.containsKey(gate_id);
+		}
+
+		protected EventList getEventList(String gate_id)
+				throws IdNotExistException {
+			if (gf.gateIdExists(gate_id)) {
+				return map.get(gate_id);
+			} else {
+				throw new IdNotExistException(gate_id);
+			}
+		}
+
+		protected int getInsertionPosition(String transition_event_id)
+				throws IdNotExistException, IdExistException {
+			if (tef.transitionEventIdExists(transition_event_id)) {
+				TransitionEvent transition_event = tef
+						.getTransitionEvent(transition_event_id);
+				String gate_id = transition_event.getGateId();
+				return map.get(gate_id).getInsertionPosition(
+						transition_event_id);
+			} else {
+				throw new IdNotExistException(transition_event_id);
+			}
+		}
+
+		/**
+		 * 
+		 * @param transition_event_id
+		 * @return the index at which the new event ID is inserted.
+		 * @throws IdNotExistException
+		 * @throws IdExistException
+		 */
+		protected int insertEvent(String transition_event_id)
+				throws IdNotExistException, IdExistException {
+			if (tef.transitionEventIdExists(transition_event_id)) {
+				TransitionEvent transition_event = tef
+						.getTransitionEvent(transition_event_id);
+				String gate_id = transition_event.getGateId();
+				return map.get(gate_id).insertEvent(transition_event_id);
+			} else {
+				throw new IdNotExistException(transition_event_id);
+			}
+		}
+
+		protected String getTransitionEventAt(String gate_id, int i) {
+			EventList list = map.get(gate_id);
+			return list.getAt(i);
+		}
+
+		/**
+		 * Return an ArrayList of event IDs that are at or later than the time
+		 * @param gate_id
+		 * @param time
+		 * @return
+		 */
+		protected List<String> getTransitionEventsAtOrAfter(String gate_id,
+				long time) {
+			EventList list = map.get(gate_id);
+			return list.getEventsAtOrAfter(time);
+		}
+
+		/**
+		 * Remove and return an ArrayList of event IDs that are at or later than the time
+		 * @param gate_id
+		 * @param time
+		 * @return
+		 */
+		protected List<String> removeTransitionEventsAfter(String gate_id,
+				long time) {
+			EventList list = map.get(gate_id);
+			return list.removeEventsAtOrAfter(time);
+		}
+
+		protected void removeTransitionEvents(String gate_id,
+				List<String> event_ids) {
+			EventList list = map.get(gate_id);
+			list.removeEvents(event_ids);
+		}
+	}
+}
+\end{lstlisting}
+
+
+
+
+
